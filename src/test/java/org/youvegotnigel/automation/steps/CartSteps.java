@@ -4,13 +4,13 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.testng.Assert;
-import org.youvegotnigel.automation.context.TestContext;
+import org.youvegotnigel.automation.context.WebTestContext;
 import org.youvegotnigel.automation.pageobjects.CartPage;
 
 public class CartSteps {
 
     private final CartPage cartPage = new CartPage();
-    private final TestContext context = new TestContext();
+    private final WebTestContext context = new WebTestContext();
 
     @Given("^I have navigated to E-Commerce site$")
     public void i_have_navigated_to_ecommerce_site() {
