@@ -86,6 +86,25 @@ public class ApiSteps {
     }
 
 
+    @And("^I add a household product with below information:$")
+    public void add_a_household_product(DataTable dataTable) {
+
+        RequestSpecification addProductReqSpec = new RequestSpecBuilder().setBaseUri(Routes.BASE_URL)
+                .addHeader("Authorization", context.getToken()).build();
+
+        Map<String, String> formValues = dataTable.transpose().asMap();
+
+        RequestSpecification reqAddProduct =
+                given().spec(addProductReqSpec).log().all()
+                        .formParams(formValues)
+                        .param("productAddedBy", context.getUserId())
+                        .multiPart("productImage", new File(Routes.BULB_IMAGE_PATH));
+
+        String addProductResponse = reqAddProduct.when().post(Routes.ADD_PRODUCT_PATH).then().log().all().extract().response().asString();
+        context.setProductId(new JsonPath(addProductResponse).getString("productId"));
+    }
+
+
     @And("^I create a order form \"(.+)\"$")
     public void create_order(String country) {
 
