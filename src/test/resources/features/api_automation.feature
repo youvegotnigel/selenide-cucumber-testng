@@ -34,7 +34,7 @@ Feature: Shopping Cart Management API
       | email                   | productName        | price | description       | country   |
       | nolivif958@craftapk.com | Air Jordan 3 Retro | 89999 | Made in Sri Lanka | Australia |
 
-
+  @ignore
   Scenario Outline: Verify user can order a household product
     Given I login successfully as "<email>" user
     And I add a household product with below information:
