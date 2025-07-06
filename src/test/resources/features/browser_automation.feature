@@ -1,5 +1,5 @@
 @smoke
-Feature: Shopping Cart Management
+Feature: Shopping Cart Management UI
 
   Scenario: User can add product to cart and checkout
     Given I have navigated to E-Commerce site
