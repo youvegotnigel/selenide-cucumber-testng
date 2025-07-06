@@ -19,7 +19,6 @@ Feature: Shopping Cart Management UI
     Then the MRP price should match the product price
 
 
-  #@ignore
   Scenario: User can add a third product to cart and checkout
     Given I have navigated to E-Commerce site
     And I search for product "ZARA COAT 3"
