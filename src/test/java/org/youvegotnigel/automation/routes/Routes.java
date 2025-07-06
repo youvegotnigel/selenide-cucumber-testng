@@ -12,5 +12,6 @@ public class Routes {
 
     public static final String WATCH_IMAGE_PATH = System.getProperty("user.dir") + "/images/watch.png";
     public static final String SHOE_IMAGE_PATH = System.getProperty("user.dir") + "/images/shoe.png";
+    public static final String BULB_IMAGE_PATH = System.getProperty("user.dir") + "/images/bulb.png";
 
 }
