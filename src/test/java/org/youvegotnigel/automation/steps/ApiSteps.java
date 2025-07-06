@@ -25,7 +25,14 @@ import static io.restassured.RestAssured.given;
 
 public class ApiSteps {
 
-    private final ApiTestContext context = new ApiTestContext();
+    private final ApiTestContext context;
+
+    // Constructor injection - PicoContainer creates new instance per scenario
+    public ApiSteps(ApiTestContext context) {
+        this.context = context;
+        System.out.println("Constructor - Thread: " + Thread.currentThread().getName() +
+                " - Context: " + context.hashCode());
+    }
 
     @Given("^I login successfully as \"(.+)\" user$")
     public void authenticate_user(String userEmail) {

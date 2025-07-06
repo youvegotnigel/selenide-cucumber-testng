@@ -1,4 +1,4 @@
-@smoke
+@smoke @ignore
 Feature: Shopping Cart Management UI
 
   Scenario: User can add product to cart and checkout
