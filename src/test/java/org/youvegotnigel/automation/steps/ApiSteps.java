@@ -67,6 +67,7 @@ public class ApiSteps {
         context.setProductId(new JsonPath(addProductResponse).getString("productId"));
     }
 
+
     @And("^I add a shoe product with below information:$")
     public void add_a_shoe_product(DataTable dataTable) {
 
