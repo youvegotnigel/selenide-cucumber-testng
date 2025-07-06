@@ -1,6 +1,6 @@
 package org.youvegotnigel.automation.context;
 
-public class TestContext {
+public class WebTestContext {
 
     private String productPrice;
     private String productName;
