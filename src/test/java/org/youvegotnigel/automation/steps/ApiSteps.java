@@ -180,7 +180,7 @@ public class ApiSteps {
     }
 
 
-    @And("^I delete added product$")
+    @And("^I delete the added product$")
     public void delete_product() {
 
         RequestSpecification deleteProductReqSpec = new RequestSpecBuilder().setBaseUri(Routes.BASE_URL)

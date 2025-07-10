@@ -11,7 +11,7 @@ Feature: Shopping Cart Management API
       | orderBy | productName   | country   | orderPrice | productDescription | message                                  |
       | <email> | <productName> | <country> | <price>    | <description>      | Orders fetched for customer Successfully |
     And I delete my order
-    And I delete added product
+    And I delete the added product
 
     Examples:
       | email                   | productName | price | description       | country   |
@@ -28,7 +28,7 @@ Feature: Shopping Cart Management API
       | orderBy | productName   | country   | orderPrice | productDescription | message                                  |
       | <email> | <productName> | <country> | <price>    | <description>      | Orders fetched for customer Successfully |
     And I delete my order
-    And I delete added product
+    And I delete the added product
 
     Examples:
       | email                   | productName        | price | description       | country   |
@@ -45,7 +45,7 @@ Feature: Shopping Cart Management API
       | orderBy | productName   | country   | orderPrice | productDescription | message                                  |
       | <email> | <productName> | <country> | <price>    | <description>      | Orders fetched for customer Successfully |
     And I delete my order
-    And I delete added product
+    And I delete the added product
 
     Examples:
       | email                   | productName | price | description                | country |
