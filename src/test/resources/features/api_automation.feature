@@ -1,4 +1,4 @@
-@smoke
+@all @api
 Feature: Shopping Cart Management API
 
   Scenario Outline: Verify user can order a watch product
