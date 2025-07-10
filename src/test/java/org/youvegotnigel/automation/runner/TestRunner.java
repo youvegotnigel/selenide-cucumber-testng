@@ -6,7 +6,7 @@ import org.testng.annotations.DataProvider;
 @CucumberOptions(
         features = "src/test/resources/features",
         glue = {"org.youvegotnigel.automation.steps", "org.youvegotnigel.automation.runner"},
-        tags = "@smoke and not @ignore",
+        tags = "@api and not @ignore",
         dryRun = false,
         monochrome = true,
         plugin = {
