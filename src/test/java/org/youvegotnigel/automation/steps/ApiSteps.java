@@ -10,6 +10,7 @@ import io.restassured.path.json.JsonPath;
 import io.restassured.specification.RequestSpecification;
 import org.testng.Assert;
 import org.youvegotnigel.automation.context.ApiTestContext;
+import org.youvegotnigel.automation.context.TestContextManager;
 import org.youvegotnigel.automation.pojo.CreateOrder;
 import org.youvegotnigel.automation.pojo.LoginRequest;
 import org.youvegotnigel.automation.pojo.LoginResponse;
@@ -25,11 +26,12 @@ import static io.restassured.RestAssured.given;
 
 public class ApiSteps {
 
-    private final ApiTestContext context;
+    //private final ApiTestContext context;
 
     // Constructor injection - PicoContainer creates new instance per scenario
     public ApiSteps(ApiTestContext context) {
-        this.context = context;
+        //this.context = context;
+        TestContextManager.initializeContext();
         System.out.println("Constructor - Thread: " + Thread.currentThread().getName() +
                 " - Context: " + context.hashCode());
     }
@@ -51,8 +53,8 @@ public class ApiSteps {
         LoginResponse loginResponse = reqLogin.when().post(Routes.LOGIN_PATH)
                 .then().log().all().extract().response().as(LoginResponse.class);
 
-        context.setToken(loginResponse.getToken());
-        context.setUserId(loginResponse.getUserId());
+        TestContextManager.getContext().setToken(loginResponse.getToken());
+        TestContextManager.getContext().setUserId(loginResponse.getUserId());
     }
 
 
@@ -60,18 +62,18 @@ public class ApiSteps {
     public void add_a_watch_product(DataTable dataTable) {
 
         RequestSpecification addProductReqSpec = new RequestSpecBuilder().setBaseUri(Routes.BASE_URL)
-                .addHeader("Authorization", context.getToken()).build();
+                .addHeader("Authorization",  TestContextManager.getContext().getToken()).build();
 
         Map<String, String> formValues = dataTable.transpose().asMap();
 
         RequestSpecification reqAddProduct =
                 given().spec(addProductReqSpec).log().all()
                         .formParams(formValues)
-                        .param("productAddedBy", context.getUserId())
+                        .param("productAddedBy",  TestContextManager.getContext().getUserId())
                         .multiPart("productImage", new File(Routes.WATCH_IMAGE_PATH));
 
         String addProductResponse = reqAddProduct.when().post(Routes.ADD_PRODUCT_PATH).then().log().all().extract().response().asString();
-        context.setProductId(new JsonPath(addProductResponse).getString("productId"));
+        TestContextManager.getContext().setProductId(new JsonPath(addProductResponse).getString("productId"));
     }
 
 
@@ -79,18 +81,18 @@ public class ApiSteps {
     public void add_a_shoe_product(DataTable dataTable) {
 
         RequestSpecification addProductReqSpec = new RequestSpecBuilder().setBaseUri(Routes.BASE_URL)
-                .addHeader("Authorization", context.getToken()).build();
+                .addHeader("Authorization",  TestContextManager.getContext().getToken()).build();
 
         Map<String, String> formValues = dataTable.transpose().asMap();
 
         RequestSpecification reqAddProduct =
                 given().spec(addProductReqSpec).log().all()
                         .formParams(formValues)
-                        .param("productAddedBy", context.getUserId())
+                        .param("productAddedBy",  TestContextManager.getContext().getUserId())
                         .multiPart("productImage", new File(Routes.SHOE_IMAGE_PATH));
 
         String addProductResponse = reqAddProduct.when().post(Routes.ADD_PRODUCT_PATH).then().log().all().extract().response().asString();
-        context.setProductId(new JsonPath(addProductResponse).getString("productId"));
+        TestContextManager.getContext().setProductId(new JsonPath(addProductResponse).getString("productId"));
     }
 
 
@@ -98,18 +100,18 @@ public class ApiSteps {
     public void add_a_household_product(DataTable dataTable) {
 
         RequestSpecification addProductReqSpec = new RequestSpecBuilder().setBaseUri(Routes.BASE_URL)
-                .addHeader("Authorization", context.getToken()).build();
+                .addHeader("Authorization",  TestContextManager.getContext().getToken()).build();
 
         Map<String, String> formValues = dataTable.transpose().asMap();
 
         RequestSpecification reqAddProduct =
                 given().spec(addProductReqSpec).log().all()
                         .formParams(formValues)
-                        .param("productAddedBy", context.getUserId())
+                        .param("productAddedBy",  TestContextManager.getContext().getUserId())
                         .multiPart("productImage", new File(Routes.BULB_IMAGE_PATH));
 
         String addProductResponse = reqAddProduct.when().post(Routes.ADD_PRODUCT_PATH).then().log().all().extract().response().asString();
-        context.setProductId(new JsonPath(addProductResponse).getString("productId"));
+        TestContextManager.getContext().setProductId(new JsonPath(addProductResponse).getString("productId"));
     }
 
 
@@ -118,13 +120,13 @@ public class ApiSteps {
 
         RequestSpecification createOrderReqSpec = new RequestSpecBuilder().setBaseUri(Routes.BASE_URL)
                 .setContentType(ContentType.JSON)
-                .addHeader("Authorization", context.getToken()).build();
+                .addHeader("Authorization",  TestContextManager.getContext().getToken()).build();
 
         List<OrderDetail> orderDetails = new ArrayList<>();
 
         OrderDetail order1 = new OrderDetail();
         order1.setCountry(country);
-        order1.setProductOrderedId(context.getProductId());
+        order1.setProductOrderedId(TestContextManager.getContext().getProductId());
 
         orderDetails.add(order1);
 
@@ -137,7 +139,7 @@ public class ApiSteps {
         String resCreateOrder = reqCreateOrder.when().post(Routes.CREATE_ORDER_PATH)
                 .then().log().all().extract().response().asString();
 
-        context.setOrderId(new JsonPath(resCreateOrder).getString("orders[0]"));
+        TestContextManager.getContext().setOrderId(new JsonPath(resCreateOrder).getString("orders[0]"));
     }
 
 
@@ -145,10 +147,10 @@ public class ApiSteps {
     public void verify_order_details(DataTable dataTable) {
 
         RequestSpecification getOrderDetailsReqSpec = new RequestSpecBuilder().setBaseUri(Routes.BASE_URL)
-                .addHeader("Authorization", context.getToken()).build();
+                .addHeader("Authorization", TestContextManager.getContext().getToken()).build();
 
         RequestSpecification reqGetOrder =
-                given().spec(getOrderDetailsReqSpec).log().all().param("id", context.getOrderId());
+                given().spec(getOrderDetailsReqSpec).log().all().param("id", TestContextManager.getContext().getOrderId());
 
         String resOrderDetails = reqGetOrder.when().get(Routes.ORDER_DETAILS_PATH).then().log().all().extract().response().asString();
 
@@ -167,11 +169,11 @@ public class ApiSteps {
     public void delete_order() {
 
         RequestSpecification deleteOrderReqSpec = new RequestSpecBuilder().setBaseUri(Routes.BASE_URL)
-                .addHeader("Authorization", context.getToken()).build();
+                .addHeader("Authorization", TestContextManager.getContext().getToken()).build();
 
         RequestSpecification reqDeleteProduct =
                 given().spec(deleteOrderReqSpec).log().all()
-                        .pathParams("orderId", context.getOrderId());
+                        .pathParams("orderId", TestContextManager.getContext().getOrderId());
 
         String resDeleteProduct = reqDeleteProduct.when().delete(Routes.DELETE_ORDER_PATH)
                 .then().log().all().extract().response().asString();
@@ -184,11 +186,11 @@ public class ApiSteps {
     public void delete_product() {
 
         RequestSpecification deleteProductReqSpec = new RequestSpecBuilder().setBaseUri(Routes.BASE_URL)
-                .addHeader("Authorization", context.getToken()).build();
+                .addHeader("Authorization", TestContextManager.getContext().getToken()).build();
 
         RequestSpecification reqDeleteProduct =
                 given().spec(deleteProductReqSpec).log().all()
-                        .pathParams("productId", context.getProductId());
+                        .pathParams("productId", TestContextManager.getContext().getProductId());
 
         String resDeleteProduct = reqDeleteProduct.when().delete(Routes.DELETE_PRODUCT_PATH)
                 .then().log().all().extract().response().asString();
