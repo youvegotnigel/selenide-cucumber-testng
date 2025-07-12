@@ -1,10 +1,11 @@
 package org.youvegotnigel.automation.runner;
 
 import com.codeborne.selenide.Configuration;
+import io.cucumber.java.AfterAll;
 import io.cucumber.java.AfterStep;
+import io.cucumber.java.BeforeAll;
 import io.cucumber.java.Scenario;
 import org.openqa.selenium.OutputType;
-import org.testng.annotations.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -15,14 +16,14 @@ import static com.codeborne.selenide.Selenide.screenshot;
 
 public class Hooks {
 
-    @BeforeClass
-    @Parameters({"browser"})
-    public static void setUp(String browser) {
+    @BeforeAll
+    public static void setUp() {
+        String browser = System.getenv("browser");
         System.out.println("Tests running on :: " + browser);
-        Configuration.browser = browser;
+        Configuration.browser = "chrome";
     }
 
-    @AfterClass
+    @AfterAll
     public static void tearDown() {
         System.out.println("closing browser");
         closeWebDriver();
